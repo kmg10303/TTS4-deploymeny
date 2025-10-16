@@ -16,6 +16,26 @@ app.use(express.static(path.join(__dirname, '../public')));
 const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, 'data');
 const DATA_PATH = path.join(DATA_DIR, 'candidates.json');
 
+// Fallback candidates bundled in code so UI works even if file I/O fails
+const DEFAULT_CANDIDATES = [
+  {
+    id: 'race-ny-03', name: 'Alex Kim', office: 'US House NY-03', isIncumbent: false,
+    pollingMarginPct: -2.0, daysToElection: 24, cashOnHandUSD: 450000, alignmentScore: 0.85
+  },
+  {
+    id: 'race-az-sen', name: 'Jordan Lopez', office: 'US Senate AZ', isIncumbent: false,
+    pollingMarginPct: -8.0, daysToElection: 40, cashOnHandUSD: 2100000, alignmentScore: 0.9
+  },
+  {
+    id: 'race-pa-10', name: 'Morgan Patel', office: 'US House PA-10', isIncumbent: true,
+    pollingMarginPct: 4.0, daysToElection: 18, cashOnHandUSD: 3200000, alignmentScore: 0.6
+  },
+  {
+    id: 'race-mi-08', name: 'Taylor Reed', office: 'US House MI-08', isIncumbent: false,
+    pollingMarginPct: -0.5, daysToElection: 12, cashOnHandUSD: 150000, alignmentScore: 0.75
+  }
+];
+
 function parseWeights(q) {
   const w = { ...defaultWeights };
   for (const k of Object.keys(w)) {
@@ -38,8 +58,15 @@ function parseParams(q) {
 
 app.get('/api/candidates', async (req, res) => {
   try {
-    const raw = await fs.readFile(DATA_PATH, 'utf-8');
-    const candidates = JSON.parse(raw);
+    let candidates;
+    try {
+      const raw = await fs.readFile(DATA_PATH, 'utf-8');
+      candidates = JSON.parse(raw);
+      if (!Array.isArray(candidates)) throw new Error('candidates.json is not an array');
+    } catch (e) {
+      // Fallback to defaults if file missing or parse error
+      candidates = DEFAULT_CANDIDATES;
+    }
 
     const weights = parseWeights(req.query);
     const params = parseParams(req.query);
