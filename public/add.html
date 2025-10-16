@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Add Candidate</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <style>
+    main { max-width: 720px; margin: 0 auto; padding: 16px; }
+    form { display: grid; gap: 12px; }
+    .field { display: grid; gap: 6px; }
+    input, select { padding: 10px; font-size: 1rem; border-radius: 8px; border: 1px solid #333; background:#0b0f14; color:#e6edf3; }
+    .row { display:grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .error { color: #ff6b6b; font-size: 0.95rem; }
+    .actions { display:flex; gap:10px; }
+    a.button { display:inline-block; padding: 12px 14px; border-radius: 10px; background:#444; color:#fff; text-decoration:none; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Add Candidate</h1>
+    <p class="subtitle">Enter details below, we will validate and compute their score.</p>
+  </header>
+  <main>
+    <form id="form" novalidate>
+      <div class="field">
+        <label for="name">Name</label>
+        <input id="name" name="name" required placeholder="Taylor Reed" />
+      </div>
+      <div class="field">
+        <label for="office">Office</label>
+        <input id="office" name="office" required placeholder="US House MI-08" />
+      </div>
+      <div class="row">
+        <div class="field">
+          <label for="pollingMarginPct">Polling margin (pp, -50 to 50)</label>
+          <input id="pollingMarginPct" name="pollingMarginPct" type="number" step="0.1" min="-50" max="50" required />
+        </div>
+        <div class="field">
+          <label for="daysToElection">Days to election (>= 0)</label>
+          <input id="daysToElection" name="daysToElection" type="number" step="1" min="0" required />
+        </div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label for="cashOnHandUSD">Cash on hand ($, >= 0)</label>
+          <input id="cashOnHandUSD" name="cashOnHandUSD" type="number" step="1" min="0" required />
+        </div>
+        <div class="field">
+          <label for="alignmentScore">Alignment (0–1)</label>
+          <input id="alignmentScore" name="alignmentScore" type="number" step="0.01" min="0" max="1" required />
+        </div>
+      </div>
+      <div class="field">
+        <label><input id="isIncumbent" name="isIncumbent" type="checkbox" /> Incumbent</label>
+      </div>
+      <div id="error" class="error" role="alert" aria-live="polite"></div>
+      <div class="actions">
+        <button class="primary" type="submit">Save Candidate</button>
+        <a href="/" class="button">Cancel</a>
+      </div>
+    </form>
+  </main>
+  <script type="module" src="/add.js"></script>
+</body>
+</html>

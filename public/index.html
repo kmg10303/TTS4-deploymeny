@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Impact Score Prototype</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Impactful Donations</h1>
+    <p class="subtitle">Find where your next $1 matters most</p>
+  </header>
+
+  <main>
+    <section class="controls">
+      <label>
+        Text size
+        <input id="textScale" type="range" min="1" max="1.6" step="0.05" value="1.2" />
+      </label>
+      <label>
+        Alignment (0–1)
+        <input id="alignmentDefault" type="range" min="0" max="1" step="0.05" value="0.8" />
+      </label>
+      <button id="refreshBtn" class="primary">Refresh</button>
+    </section>
+
+    <section id="list" aria-live="polite"></section>
+  </main>
+
+  <footer>
+    <button id="sortImpact" class="primary">Sort by Impact</button>
+    <button id="sortSoon" class="secondary">Soonest Elections</button>
+    <div style="display: contents">
+      <button id="sortMEPD" class="secondary">Best $ Effect</button>
+      <a href="/add.html" style="text-decoration:none">
+        <button class="secondary" type="button">Add Candidate</button>
+      </a>
+    </div>
+  </footer>
+
+  <script src="/app.js" type="module"></script>
+</body>
+</html>
