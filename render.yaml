@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: impact-score-prototype
+    env: node
+    buildCommand: "npm install"
+    startCommand: "npm start"
+    plan: free
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATA_DIR
+        value: /opt/render/project/src/server/data

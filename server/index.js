@@ -13,7 +13,8 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../public')));
 
-const DATA_PATH = path.join(__dirname, 'data', 'candidates.json');
+const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, 'data');
+const DATA_PATH = path.join(DATA_DIR, 'candidates.json');
 
 function parseWeights(q) {
   const w = { ...defaultWeights };
